@@ -91,5 +91,63 @@ namespace XunitTestProject
         }
 
         #endregion // AddStudent
+
+        #region UpdateStudent
+
+        [Theory]
+        [InlineData(1, "newName", "email")]
+        [InlineData(1, "name", "newEmail")]
+        [InlineData(1, "name", null)]
+
+        public void UpdateStudent_ValidUpdate_Test(int id, string name, string email)
+        {
+            // Arrange
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            var service = new StudentService(repoMock.Object);
+
+            var student = new Student(id, name, email);
+
+            // Act
+            service.UpdateStudent(student);
+
+            // Assert
+            repoMock.Verify(r => r.Update(student), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(0, "name", "email", "Invalid Id. Id must be greater than zero")]    // invalid id. Id <= 0
+        [InlineData(1, null, "email", "Invalid name. Name is missing")]                 // invalid name. name == null
+        [InlineData(1, "", "email", "Invalid name. Name is empty")]                     // invalid name. name == ""
+        [InlineData(1, "name", "", "Invalid email. Email is empty")]                    // invalid email. email == ""
+        public void UpdateStudent_InvalidUpdate_ExpectArgumentException_Test(int id, string name, string email, string expected)
+        {
+            // Arrange
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            var service = new StudentService(repoMock.Object);
+
+            var student = new Student(id, name, email);
+
+            // Act and assert
+            var ex = Assert.Throws<ArgumentException>(() => service.UpdateStudent(student));
+
+            Assert.Equal(expected, ex.Message);
+            repoMock.Verify(r => r.Update(student), Times.Never);
+        }
+
+        [Fact]
+        public void UpdateStudent_StudentIsNull_ExpectArgumentNullException_Test()
+        {
+            // Arrange
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            var service = new StudentService(repoMock.Object);
+
+            // Act and assert
+            var ex = Assert.Throws<ArgumentNullException>(() => service.UpdateStudent(null));
+
+            // Assert
+            repoMock.Verify(r => r.Update(null), Times.Never);
+        }
+
+        #endregion // UpdateStudent
     }
 }

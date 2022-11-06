@@ -32,5 +32,15 @@ namespace StudentRepoExample.Core.Service
             if (s.Email == "")
                 throw new ArgumentException("Invalid email. Email is empty");
         }
+
+        public void UpdateStudent(Student s)
+        {
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
+            
+            ThrowIfInvalidStudent(s);
+
+            _studentRepository.Update(s);
+        }
     }
 }
