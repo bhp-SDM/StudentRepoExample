@@ -42,11 +42,5 @@ namespace StudentRepoExample.Core.Service
 
             _studentRepository.Update(s);
         }
-
-        #region DeleteStudent
-
-
-
-        #endregion // DeleteStudent
     }
 }
