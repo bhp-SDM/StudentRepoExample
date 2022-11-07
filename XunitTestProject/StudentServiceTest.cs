@@ -209,5 +209,50 @@ namespace XunitTestProject
         }
 
         #endregion // DeleteStudent
+
+        #region GetStudent
+
+        [Fact]
+        public void GetStudent_ExistingStudent_Test()
+        {
+            // Arrange
+            var student = new Student(1, "name", "email");
+
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            repoMock.Setup(r => r.Get(1)).Returns(student);
+
+            var service = new StudentService(repoMock.Object);
+
+            // Act
+            Student? result = service.GetStudent(1);
+
+            // Assert
+            Assert.Equal(result, student);
+            repoMock.Verify(r => r.Get(1), Times.Once);
+
+        }
+
+        [Fact]
+        public void GetStudent_NonExistingStudent_Test()
+        {
+            // Arrange
+
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            repoMock.Setup(r => r.Get(1)).Returns(() => null);
+
+            var service = new StudentService(repoMock.Object);
+
+            // Act
+            Student? result = service.GetStudent(1);
+
+            // Assert
+            Assert.Null(result);
+            repoMock.Verify(r => r.Get(1), Times.Once);
+        }
+
+        #endregion // GetStudent
+
+
+
     }
 }

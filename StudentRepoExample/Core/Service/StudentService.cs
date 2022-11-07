@@ -54,5 +54,10 @@ namespace StudentRepoExample.Core.Service
             }
             _studentRepository.Delete(student);
         }
+
+        public Student? GetStudent(int id)
+        {
+            return _studentRepository.Get(id);  
+        }
     }
 }
