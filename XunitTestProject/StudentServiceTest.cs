@@ -249,7 +249,8 @@ namespace XunitTestProject
             Assert.Null(result);
             repoMock.Verify(r => r.Get(1), Times.Once);
         }
-    }
 
         #endregion // GetStudent
+
     }
+}
