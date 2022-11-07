@@ -12,7 +12,7 @@ namespace StudentRepoExample.Core.Interfaces
         void Add(Student s);
         void Update(Student s);
         void Delete(Student s);
-        Student Get(int id);
+        Student? Get(int id);
         IEnumerable<Student> GetAll();
     }
 }
