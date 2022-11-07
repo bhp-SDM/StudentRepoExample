@@ -220,7 +220,7 @@ namespace XunitTestProject
 
             Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
             repoMock.Setup(r => r.Get(1)).Returns(student);
-            
+
             var service = new StudentService(repoMock.Object);
 
             // Act
@@ -229,7 +229,7 @@ namespace XunitTestProject
             // Assert
             Assert.Equal(result, student);
             repoMock.Verify(r => r.Get(1), Times.Once);
-            
+
         }
 
         [Fact]
@@ -249,7 +249,7 @@ namespace XunitTestProject
             Assert.Null(result);
             repoMock.Verify(r => r.Get(1), Times.Once);
         }
+    }
 
-            #endregion // GetStudent
-        }
+        #endregion // GetStudent
     }
