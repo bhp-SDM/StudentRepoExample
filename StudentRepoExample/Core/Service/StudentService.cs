@@ -42,5 +42,17 @@ namespace StudentRepoExample.Core.Service
 
             _studentRepository.Update(s);
         }
+
+        public void DeleteStudent(Student student)
+        {
+            if (student == null)
+                throw new ArgumentNullException(nameof(student));
+
+            if (_studentRepository.Get(student.Id) == null)
+            {
+                throw new ArgumentException("Student does not exist");
+            }
+            _studentRepository.Delete(student);
+        }
     }
 }

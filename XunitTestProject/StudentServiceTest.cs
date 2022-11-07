@@ -152,5 +152,63 @@ namespace XunitTestProject
 
 
         #endregion // UpdateStudent
+
+        #region DeleteStudent
+
+        [Fact]
+        public void DeleteStudent_ExistingStudent_Test()
+        {
+            // Arrange
+            var student = new Student(1, "name", "email");
+
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            // Student must exist before deletion
+            repoMock.Setup(r => r.Get(1)).Returns(student);
+
+            var service = new StudentService(repoMock.Object);
+
+            // Act
+            service.DeleteStudent(student);
+
+            // Assert
+            repoMock.Verify(r => r.Delete(student), Times.Once);
+        }
+
+        [Fact]
+        public void DeleteStudent_StudentDoesNotExist_ExpectArgumentException_Test()
+        {
+            // Arrange
+            var student = new Student(1, "name", "email");
+
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            // Student must not exist before deletion
+            repoMock.Setup(r => r.Get(1)).Returns(() => null);
+
+            var service = new StudentService(repoMock.Object);
+
+            // Act and assert
+            var ex = Assert.Throws<ArgumentException>(() => service.DeleteStudent(student));
+
+            Assert.Equal("Student does not exist", ex.Message);
+
+            repoMock.Verify(r => r.Delete(student), Times.Never);
+        }
+
+        [Fact]
+        public void DeleteStudent_StudentIsNull_ExpectArgumentNullException_Test()
+        {
+            // Arrange
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            var service = new StudentService(repoMock.Object);
+
+            // Act and assert
+            var ex = Assert.Throws<ArgumentNullException>(() => service.DeleteStudent(null));
+
+            // Assert
+            repoMock.Verify(r => r.Delete(null), Times.Never);
+        }
+
+        #endregion // DeleteStudent
+
     }
 }
