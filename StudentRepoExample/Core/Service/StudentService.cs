@@ -59,10 +59,5 @@ namespace StudentRepoExample.Core.Service
         {
             return _studentRepository.Get(id);  
         }
-
-        public IEnumerable<Student> GetAllStudents()
-        {
-            return _studentRepository.GetAll();
-        }
     }
 }
