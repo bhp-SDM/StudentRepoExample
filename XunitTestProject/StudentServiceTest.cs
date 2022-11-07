@@ -134,22 +134,6 @@ namespace XunitTestProject
             repoMock.Verify(r => r.Update(student), Times.Never);
         }
 
-        //[Fact]
-        //public void UpdateStudent_StudentIsNull_ExpectArgumentNullException_Test()
-        //{
-        //    // Arrange
-        //    Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
-        //    var service = new StudentService(repoMock.Object);
-
-        //    // Act and assert
-        //    var ex = Assert.Throws<ArgumentNullException>(() => service.UpdateStudent(null));
-
-        //    // Assert
-        //    repoMock.Verify(r => r.Update(null), Times.Never);
-        //}
-
-
-
         [Fact]
         public void UpdateStudent_StudentIsNull_ExpectArgumentNullException_Test()
         {
@@ -163,6 +147,7 @@ namespace XunitTestProject
             // Assert
             repoMock.Verify(r => r.Update(null), Times.Never);
         }
+
 
 
 
