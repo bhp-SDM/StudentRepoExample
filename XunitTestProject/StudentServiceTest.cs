@@ -252,7 +252,32 @@ namespace XunitTestProject
 
         #endregion // GetStudent
 
+        #region GetAllStudents
 
+        [Fact]
+        public void GetAllStudents_Test()
+        {
+            //Arrange
+            // Existing data
+            var s1 = new Student(1, "name1", "email1");
+            var s2 = new Student(2, "name2", "email2");
+            var students = new List<Student>() { s1, s2 };
 
+            Mock<IStudentRepository> repoMock = new Mock<IStudentRepository>();
+            repoMock.Setup(r => r.GetAll()).Returns(students);
+            
+            var service = new StudentService(repoMock.Object);
+
+            // Act
+            var result = service.GetAllStudents();
+
+            // Assert
+            Assert.Equal(result.ToList().Count, students.Count);
+            Assert.Contains(s1, result);
+            Assert.Contains(s2, result);
+            repoMock.Verify(r => r.GetAll(), Times.Once);
+        }
+
+        #endregion // GetAllStudents
     }
 }
